@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDA_C-sh_ClassWork_16_Flowers", "IDA_C-sh_ClassWork_16_Flowers\IDA_C-sh_ClassWork_16_Flowers.csproj", "{3190407C-1F9F-421C-B072-04F093277973}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3190407C-1F9F-421C-B072-04F093277973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3190407C-1F9F-421C-B072-04F093277973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3190407C-1F9F-421C-B072-04F093277973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3190407C-1F9F-421C-B072-04F093277973}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EFCBACD-1C50-4949-A2E7-1476D7091E3A}
+	EndGlobalSection
+EndGlobal
