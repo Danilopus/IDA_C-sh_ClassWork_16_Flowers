@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace IDA_C_sh_ClassWork_16_Flowers
 {
@@ -34,14 +35,15 @@ namespace IDA_C_sh_ClassWork_16_Flowers
                             select i;
             return temp_view.ToList();
         }
-        public void SaveToFile(string fileName)
+        public void SaveToFileJSON(string fileName)
         {
             using (StreamWriter writer = new StreamWriter(fileName, false))
             {
                 writer.WriteLine(JsonSerializer.Serialize(flowers_list));
+                //writer.WriteLine(JsonSerializer.Serialize(flowers_list[0]));
             }
         }
-        public void LoadFromFile(string fileName)
+        public void LoadFromFileJSON(string fileName)
         {
             string read_result;
             using (StreamReader streamReader_1 = new StreamReader(fileName))
@@ -51,6 +53,28 @@ namespace IDA_C_sh_ClassWork_16_Flowers
             }
             flowers_list = JsonSerializer.Deserialize<List<Flower>>(read_result);
         }
+        public void SaveToFileXML(string fileName)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List <Flower>));
+
+            using (StreamWriter writer = new StreamWriter(fileName, false))
+            {
+                xmlSerializer.Serialize(writer, flowers_list);
+                //xmlSerializer.Serialize(writer, flowers_list[0]);
+            }
+
+        }
+        public void LoadFromFileXML(string fileName)
+        {
+            string read_result;
+            using (StreamReader streamReader_1 = new StreamReader(fileName))
+            {
+                read_result = streamReader_1.ReadToEnd();
+                read_result ??= string.Empty;
+            }
+            flowers_list = JsonSerializer.Deserialize<List<Flower>>(read_result);
+        }
+
         public void Watering(Flower f)
         {
             Console.WriteLine($"Message from Garden: Watering {f} in progress");

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IDA_C_sh_ClassWork_16_Flowers
 {
-    internal class Flower : IFlowerInfo
+    public class Flower : IFlowerInfo
     {
         public Flower()
         {
@@ -34,24 +34,15 @@ namespace IDA_C_sh_ClassWork_16_Flowers
         {
             Health_ += ServiceFunction.Get_Random(max_health_change);
         }
-        public void Action_handler_soiling()
+        public override string ToString()
         {
-            FlowerHealth(5);
-        }
-
-        void FlowerGrowthEvent_handler(bool boo)
-        {
-            Console.WriteLine("new Height " + Height_);
+            return Name_;
         }
 
         /// EVENTS ///////////////////////////
         public delegate void Action(Flower f);
         public Action action_delegate { set; get; } = delegate { };
         public event Action<Flower> FlowerGrowthEvent = delegate { };
-        public override string ToString()
-        {
-            return Name_;
-        }
         public void Action_delegeta_invoke()
         {
             action_delegate(this);
