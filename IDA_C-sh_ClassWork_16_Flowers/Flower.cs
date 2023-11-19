@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace IDA_C_sh_ClassWork_16_Flowers
 {
@@ -41,6 +43,8 @@ namespace IDA_C_sh_ClassWork_16_Flowers
 
         /// EVENTS ///////////////////////////
         public delegate void Action(Flower f);
+        [JsonIgnore]
+        [XmlIgnore]
         public Action action_delegate { set; get; } = delegate { };
         public event Action<Flower> FlowerGrowthEvent = delegate { };
         public void Action_delegeta_invoke()

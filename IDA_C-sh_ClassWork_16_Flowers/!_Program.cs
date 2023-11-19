@@ -66,13 +66,19 @@ namespace IDA_C_sh_ClassWork
             //List <Flower> flowers_list_ = new List <Flower>();
             //for (int i = 0; i < flowers_qua; i++) flowers_list_.Add(new Flower()); 
 
-            //if 
+            // Как просили - считываем данные о цветах из файлов (если они есть)
+            string JSON_filename = "flowers_list.json";
+            string XML_filename = "flowers_list.xml";
             
-            Garden garden_1 = new Garden(15);
+            Garden garden_1 = new Garden();
+
+            if (File.Exists(JSON_filename)) { garden_1.LoadFromFileJSON(JSON_filename); }
+            else if (File.Exists(XML_filename)) { garden_1.LoadFromFileXML(XML_filename); }
+            else garden_1.GenerateFlowerList(15);
+
             Console.WriteLine("\n\n *** Состав сада:");
             Console.WriteLine(garden_1);
-            //Console.ReadKey();
-
+            Console.ReadKey();
 
             // Подпишем каждый цветок в саду на метод Watering() через делегат Action() в классе Flower
             Console.WriteLine("\n\n// Подпишем каждый цветок в саду на метод Watering() через делегат Action() в классе Flower");
@@ -127,31 +133,29 @@ namespace IDA_C_sh_ClassWork
 
             //Запишем в файлы всю инфу
             Console.ReadKey();
-            string JSON_filename = "flowers_list.json";
-            string XML_filename = "flowers_list.xml";
             Console.WriteLine("\n\nПоробуем записать список цветов в файлы:\n" +
                 $"JSON - {JSON_filename}\n" +
                 $"XML - {XML_filename}\n");
             Console.WriteLine("\nC удивлением обнаруживаем, что из-за делегата Action (который не имеет конструкторов без параметров)\n" +
-                "невозможно сериализовать на List<Flower>, ни даже просто Flower!\n");
+                "невозможно сериализовать ни List<Flower>, ни даже просто Flower!\n" +
+                "Но! Оказывается можно внести атрибуты [JsonIgnore]/[XMLIgnore] - и все работает!");
 
-            Console.WriteLine("\nДабы узреть вылетающие исключения ... press any key\n");
+            //Console.WriteLine("\nДабы узреть вылетающие исключения ... press any key\n");
             Console.ReadKey();
-
             try
             {
                 // NotSupportedException: Serialization and deserialization of 'IDA_C_sh_ClassWork_16_Flowers.Flower+Action' instances are not supported.
-                garden_1.SaveToFileJSON(JSON_filename);
+                if(garden_1.SaveToFileJSON(JSON_filename)) Console.WriteLine("\nSaved to JSON Ok");
             }
             catch (Exception ex)
             { Console.WriteLine("\nJSON Serialize error:\n" + ex.Message); }
             try
             {
                 // InvalidOperationException: IDA_C_sh_ClassWork_16_Flowers.Flower.Action cannot be serialized because it does not have a parameterless constructor.
-                garden_1.SaveToFileXML(XML_filename);
+                if (garden_1.SaveToFileXML(XML_filename)) Console.WriteLine("\nSaved to XML Ok"); ;
             }
             catch (Exception ex)
-            { Console.WriteLine("\nXML Serialize error:\n" + ex.InnerException.Message); }
+            { Console.WriteLine("\nXML Serialize error:\n" + ex.Message); }
 
 
         }

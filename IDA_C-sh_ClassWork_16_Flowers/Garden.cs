@@ -10,13 +10,21 @@ namespace IDA_C_sh_ClassWork_16_Flowers
 {
     internal class Garden
     {
+        public Garden() { }
         public Garden(int qua)
-        { for (int i = 0; i < qua; i++)
-            flowers_list.Add(new Flower());
+        {
+            GenerateFlowerList(qua);
         }
         public List<Flower> flowers_list = new List<Flower>();
 
-        public void AddFlower(Flower flower)
+        public void GenerateFlowerList(int qua)        
+            {
+                for (int i = 0; i < qua; i++)
+                    flowers_list.Add(new Flower());
+            }
+
+
+            public void AddFlower(Flower flower)
         {
             flowers_list.Add(flower);
         }
@@ -35,13 +43,14 @@ namespace IDA_C_sh_ClassWork_16_Flowers
                             select i;
             return temp_view.ToList();
         }
-        public void SaveToFileJSON(string fileName)
+        public bool SaveToFileJSON(string fileName)
         {
             using (StreamWriter writer = new StreamWriter(fileName, false))
             {
                 writer.WriteLine(JsonSerializer.Serialize(flowers_list));
                 //writer.WriteLine(JsonSerializer.Serialize(flowers_list[0]));
             }
+            return true;
         }
         public void LoadFromFileJSON(string fileName)
         {
@@ -53,7 +62,7 @@ namespace IDA_C_sh_ClassWork_16_Flowers
             }
             flowers_list = JsonSerializer.Deserialize<List<Flower>>(read_result);
         }
-        public void SaveToFileXML(string fileName)
+        public bool SaveToFileXML(string fileName)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List <Flower>));
 
@@ -62,17 +71,22 @@ namespace IDA_C_sh_ClassWork_16_Flowers
                 xmlSerializer.Serialize(writer, flowers_list);
                 //xmlSerializer.Serialize(writer, flowers_list[0]);
             }
-
+            return true;
         }
         public void LoadFromFileXML(string fileName)
         {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Flower>));
+            
             string read_result;
+            List < Flower > temp_list = new();
+
             using (StreamReader streamReader_1 = new StreamReader(fileName))
             {
-                read_result = streamReader_1.ReadToEnd();
-                read_result ??= string.Empty;
+                temp_list = (List<Flower>)xmlSerializer.Deserialize(streamReader_1);
+                //read_result = streamReader_1.ReadToEnd();
+                //read_result ??= string.Empty;
             }
-            flowers_list = JsonSerializer.Deserialize<List<Flower>>(read_result);
+            flowers_list = temp_list;
         }
 
         public void Watering(Flower f)
