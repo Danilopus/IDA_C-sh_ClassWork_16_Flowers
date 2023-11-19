@@ -9,6 +9,13 @@ namespace IDA_C_sh_ClassWork_16_Flowers
 {
     internal class Flower : IFlowerInfo
     {
+        public Flower()
+        {
+            ID_number = ID_counter++;
+            Name_ = "flower_" + ID_number;
+        }
+        int ID_number { get; set; }
+        static int ID_counter = 1;
         public string Name_ { get; set; } = "default flower";
         public double Height_ { get; set; } = 10;
         public double Health_ { get; set; } = 100;
@@ -18,36 +25,38 @@ namespace IDA_C_sh_ClassWork_16_Flowers
             Console.WriteLine("Height " + Height_);
             Console.WriteLine("Health " + Health_);
         }
-
         public void FlowerGrow(double max_grow_change)
         {
             Height_ += ServiceFunction.Get_Random(max_grow_change);
-            FlowerGrowthEvent(true);
+            FlowerGrowthEvent(this);
         }
         public void FlowerHealth(double max_health_change)
         {
             Health_ += ServiceFunction.Get_Random(max_health_change);
-        }
-
-        public delegate void Action();
-        public void Action_handler_watering()
-        {
-            FlowerGrow(5);
         }
         public void Action_handler_soiling()
         {
             FlowerHealth(5);
         }
 
-        public event Action<bool> FlowerGrowthEvent;
-
         void FlowerGrowthEvent_handler(bool boo)
         {
             Console.WriteLine("new Height " + Height_);
         }
-        public Flower()
+
+        /// EVENTS ///////////////////////////
+        public delegate void Action(Flower f);
+        public Action action_delegate { set; get; } = delegate { };
+        public event Action<Flower> FlowerGrowthEvent = delegate { };
+        public override string ToString()
         {
-            FlowerGrowthEvent += FlowerGrowthEvent_handler;
+            return Name_;
         }
+        public void Action_delegeta_invoke()
+        {
+            action_delegate(this);
+        }
+
+
     }
 }
